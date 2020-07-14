@@ -14,14 +14,19 @@ func generateReport(compareGroup []string, rawClocMap map[string]ClocResult, col
 	//build title
 	rowBuilder("", columns...)
 	var totalFiles int = 0
+	var totalCodeLines int = 0
+	var totalComments int = 0
+	var totalBlankLines int = 0
 	for _, item := range compareGroup {
 		if clocResult, ok := rawClocMap[item]; ok {
 			totalFiles += clocResult.Sum.NFiles
+			totalCodeLines += clocResult.Sum.Code
+			totalComments += clocResult.Sum.Comment
+			totalBlankLines += clocResult.Sum.Blank
 		}
 	}
 	for _, item := range compareGroup {
 		if clocResult, ok := rawClocMap[item]; ok {
-			totalLines := clocResult.Sum.Code + clocResult.Sum.Blank + clocResult.Sum.Comment
 			title := item
 			nFile := strconv.Itoa(clocResult.Sum.NFiles)
 			lineOfCode := strconv.Itoa(clocResult.Sum.Code)
@@ -34,10 +39,14 @@ func generateReport(compareGroup []string, rawClocMap map[string]ClocResult, col
 			if totalFiles > 0 {
 				filePercentage = strconv.Itoa(clocResult.Sum.NFiles * 100 / totalFiles)
 			}
-			if totalLines > 0 {
-				codePercentage = strconv.Itoa(clocResult.Sum.Code * 100 / totalLines)
-				blankPercentage = strconv.Itoa(clocResult.Sum.Blank * 100 / totalLines)
-				commentPercentage = strconv.Itoa(clocResult.Sum.Comment * 100 / totalLines)
+			if totalCodeLines > 0 {
+				codePercentage = strconv.Itoa(clocResult.Sum.Code * 100 / totalCodeLines)
+			}
+			if totalComments > 0 {
+				commentPercentage = strconv.Itoa(clocResult.Sum.Comment * 100 / totalComments)
+			}
+			if totalBlankLines > 0 {
+				blankPercentage = strconv.Itoa(clocResult.Sum.Blank * 100 / totalBlankLines)
 			}
 			var columnValues []string
 			for _, c := range columns {

@@ -19,7 +19,7 @@ func execute(params string, verbose bool) ClocResult {
 		cmd.Dir = currentDir
 		out, err := cmd.Output()
 		if err != nil {
-			fmt.Print(err)
+			log.Print(err)
 		}
 		fmt.Printf("%s", string(out))
 	}
@@ -33,9 +33,7 @@ func execute(params string, verbose bool) ClocResult {
 	}
 
 	var result ClocResult
-	e := json.Unmarshal(out, &result)
-	if e != nil {
-		log.Print(e)
-	}
+	json.Unmarshal(out, &result)
+
 	return result
 }
