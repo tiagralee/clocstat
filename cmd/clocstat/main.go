@@ -41,7 +41,7 @@ func main() {
 					if len(strings.Split(item, ":")) > 2 {
 						generateReport(compareItems, m, strings.Split(strings.Split(item, ":")[2], ",")...)
 					} else {
-						generateReport(compareItems, m, []string{"file", "code", "code%"}...)
+						generateReport(compareItems, m, []string{"files", "code", "code%"}...)
 					}
 				}
 				s := strings.Split(item, ":")

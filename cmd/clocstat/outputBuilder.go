@@ -55,9 +55,9 @@ func generateReport(compareGroup []string, rawClocMap map[string]ClocResult, col
 					columnValues = append(columnValues, lineOfComment)
 				case "comment%":
 					columnValues = append(columnValues, commentPercentage)
-				case "file":
+				case "files":
 					columnValues = append(columnValues, nFile)
-				case "file%":
+				case "files%":
 					columnValues = append(columnValues, filePercentage)
 				default:
 					// Do nothing
