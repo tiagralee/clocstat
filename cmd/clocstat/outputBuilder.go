@@ -37,16 +37,16 @@ func generateReport(compareGroup []string, rawClocMap map[string]ClocResult, col
 			commentPercentage := "0"
 			filePercentage := "0"
 			if totalFiles > 0 {
-				filePercentage = strconv.Itoa(clocResult.Sum.NFiles * 100 / totalFiles)
+				filePercentage = dividedToString(clocResult.Sum.NFiles, totalFiles)
 			}
 			if totalCodeLines > 0 {
-				codePercentage = strconv.Itoa(clocResult.Sum.Code * 100 / totalCodeLines)
+				codePercentage = dividedToString(clocResult.Sum.Code, totalCodeLines)
 			}
 			if totalComments > 0 {
-				commentPercentage = strconv.Itoa(clocResult.Sum.Comment * 100 / totalComments)
+				commentPercentage = dividedToString(clocResult.Sum.Comment, totalComments)
 			}
 			if totalBlankLines > 0 {
-				blankPercentage = strconv.Itoa(clocResult.Sum.Blank * 100 / totalBlankLines)
+				blankPercentage = dividedToString(clocResult.Sum.Blank, totalBlankLines)
 			}
 			var columnValues []string
 			for _, c := range columns {
@@ -80,7 +80,7 @@ func generateReport(compareGroup []string, rawClocMap map[string]ClocResult, col
 }
 
 func writeTitle(compareItems []string) {
-	fmt.Printf("\n#Compare %s\n\n", strings.Join(compareItems, ", "))
+	fmt.Printf("\n# Compare %s\n\n", strings.Join(compareItems, ", "))
 }
 
 func columnBuilder(columnName string, columnLen int) string {
@@ -102,4 +102,12 @@ func rowBuilder(title string, columns ...string) {
 	}
 	fmt.Printf("%s%s\n", titleColunm, columnsValue)
 	fmt.Printf("%s\n", strings.Repeat("-", seperaterLength))
+}
+
+func dividedToString(a int, b int) string {
+	result := float64(a*100) / float64(b)
+	if result == 100 || result == 0 {
+		return fmt.Sprintf("%.0f", result)
+	}
+	return fmt.Sprintf("%.1f", result)
 }
